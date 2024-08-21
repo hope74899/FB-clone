@@ -21,11 +21,13 @@ const postSchema = new Schema({
         type: Date,
         default: Date.now,
     },
-    likes: {
-        type: [Schema.Types.ObjectId],
-        ref: 'SignupUser',
-        default: []
-    },
+    likes: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'SignupUser',
+            default: []
+        }
+    ],
     comments: [
         {
             type: Schema.Types.ObjectId,

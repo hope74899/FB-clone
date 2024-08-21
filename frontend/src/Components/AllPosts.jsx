@@ -227,34 +227,38 @@ const AllPosts = () => {
 
     const DeleteComment = async (postId, commentId) => {
         try {
-            // Send a request to the backend to delete the comment
             const response = await axios.delete(`http://localhost:5000/comments/delete/${commentId}`);
 
             if (response.status) {
-                // Update the frontend state after successful deletion
+                // Safely update the comments state by checking for undefined values
+                setComments(prevComments =>
+                    prevComments ? prevComments.filter(comment => comment?._id !== commentId) : []
+                );
+
+                // Optionally update the posts state
                 setPosts(prevPosts =>
                     prevPosts.map(post =>
                         post._id === postId
                             ? {
                                 ...post,
-                                comments: post.comments.filter(comment => comment._id !== commentId)
+                                comments: post.comments
+                                    ? post.comments.filter(comment => comment?._id !== commentId)
+                                    : []
                             }
                             : post
                     )
                 );
-                await getPostsData();
-                await getComments(postId);
-                toast.success(response.data.details ? response.data.details : response.data.message)
-
-            }
-            else {
-                toast.error(response.data.details ? response.data.details : response.data.message)
+                getPostsData()
+                toast.success(response.data.details ? response.data.details : response.data.message);
+            } else {
+                toast.error(response.data.details ? response.data.details : response.data.message);
             }
         } catch (error) {
-            toast.error('Error while deleting comment')
+            toast.error('Error while deleting comment');
             console.error("Error while deleting comment:", error);
         }
     };
+
 
     const formatDate = (dateString) => {
         try {
@@ -294,7 +298,7 @@ const AllPosts = () => {
                         </button>
                     </div>
                 </div>
-                <div className="mt-1">
+                <div className="mt-1 ">
                     <textarea
                         name="content"
                         onChange={onChangeHandlerPost}
@@ -335,8 +339,7 @@ const AllPosts = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="mb-4 min-h-32">
-
+                    <div className="mb-4 min-h-32 post-content whitespace-pre-wrap">
                         <p className="text-gray-700">{post.content}</p>
                     </div>
                     <div className="flex justify-between items-center border-t border-gray-500 pt-2 text-xs">
