@@ -79,7 +79,8 @@ const AllPosts = () => {
         try {
             const response = await axios.get('http://localhost:5000/getpost');
             if (response.status) {
-                setPosts(response.data)
+                const sortedPosts = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                setPosts(sortedPosts);
             }
             else {
                 toast.error('Error while getting post')
@@ -173,7 +174,8 @@ const AllPosts = () => {
         try {
             const response = await axios.get(`http://localhost:5000/getcomment/${postId}`);
             if (response.status) {
-                setComments(response.data);
+                const sortedcomments = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                setComments(sortedcomments);
             }
         } catch (error) {
             toast.error('An error occurred while fetching comments.');
@@ -382,13 +384,15 @@ const AllPosts = () => {
                                         <div>
                                             <div className="relative group">
                                                 {admin && (
-                                                    <button onClick={() => { DeleteComment(post._id, comment._id) }}>
-                                                        <MdDeleteOutline className="text-2xl" />
-                                                    </button>
+                                                    <>
+                                                        <button onClick={() => { DeleteComment(post._id, comment._id) }}>
+                                                            <MdDeleteOutline className="text-2xl" />
+                                                        </button>
+                                                        <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-8 p-2 w-max bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            Delete
+                                                        </span>
+                                                    </>
                                                 )}
-                                                <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-8 p-2 w-max bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    Delete
-                                                </span>
                                             </div>
                                         </div>
                                     </div>
