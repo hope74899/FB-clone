@@ -14,8 +14,8 @@ const MyPosts = () => {
     const [visibleComments, setVisibleComments] = useState({});
     const [posts, setPosts] = useState([])
     const [comments, setComments] = useState([])
+    // eslint-disable-next-line no-unused-vars
     const [userId, setUserId] = useState('')
-
 
     const toggleVisibility = (postId) => {
         setVisibleComments(prevState => ({
@@ -76,7 +76,8 @@ const MyPosts = () => {
         try {
             const response = await axios.get(`http://localhost:5000/getcomment/${postId}`);
             if (response.status) {
-                setComments(response.data);
+                const sortedcomments = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                setComments(sortedcomments);
             }
         } catch (error) {
             console.error('Error fetching comments:', error);
