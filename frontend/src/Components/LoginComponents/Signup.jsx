@@ -23,7 +23,7 @@ const Signup = () => {
     const handlelogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/signup', signupInput);
+            const response = await axios.post('https://fb-clone-beryl.vercel.app/signup', signupInput);
 
             if (response.status) {
                 storeTokenInLS(response.data.token);

@@ -77,7 +77,7 @@ const AllPosts = () => {
 
     const getPostsData = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/getpost');
+            const response = await axios.get('https://fb-clone-beryl.vercel.app/getpost');
             if (response.status) {
                 const sortedPosts = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 setPosts(sortedPosts);
@@ -98,7 +98,7 @@ const AllPosts = () => {
     const sendPostData = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/createPost', createPost,
+            const response = await axios.post('https://fb-clone-beryl.vercel.app/createPost', createPost,
 
                 // learn about headers
                 {
@@ -133,7 +133,7 @@ const AllPosts = () => {
     const deletePost = async (postId) => {
         if (!admin) return;
         try {
-            const response = await axios.delete(`http://localhost:5000/posts/delete/${postId}`);
+            const response = await axios.delete(`https://fb-clone-beryl.vercel.app/posts/delete/${postId}`);
             if (response.status) {
                 toast.success(response.data.details ? response.data.details : response.data.message)
                 getPostsData();
@@ -150,7 +150,7 @@ const AllPosts = () => {
     };
     const handleLike = async (postId) => {
         try {
-            const response = await axios.post(`http://localhost:5000/likePost/${postId}`, {}, {
+            const response = await axios.post(`https://fb-clone-beryl.vercel.app/likePost/${postId}`, {}, {
                 headers: {
                     'Authorization': authorizationToken
                 }
@@ -172,7 +172,7 @@ const AllPosts = () => {
 
     const getComments = async (postId) => {
         try {
-            const response = await axios.get(`http://localhost:5000/getcomment/${postId}`);
+            const response = await axios.get(`https://fb-clone-beryl.vercel.app/getcomment/${postId}`);
             if (response.status) {
                 const sortedcomments = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 setComments(sortedcomments);
@@ -195,7 +195,7 @@ const AllPosts = () => {
         // console.log(commentData);
 
         try {
-            const response = await axios.post('http://localhost:5000/createcomment', commentData,
+            const response = await axios.post('https://fb-clone-beryl.vercel.app/createcomment', commentData,
 
                 {
                     headers: {
@@ -229,7 +229,7 @@ const AllPosts = () => {
 
     const DeleteComment = async (postId, commentId) => {
         try {
-            const response = await axios.delete(`http://localhost:5000/comments/delete/${commentId}`);
+            const response = await axios.delete(`https://fb-clone-beryl.vercel.app/comments/delete/${commentId}`);
 
             if (response.status) {
                 // Safely update the comments state by checking for undefined values

@@ -61,7 +61,7 @@ const Profile = () => {
                 formData.append('profileImage', userData.profileImage);
             }
 
-            const response = await axios.put("http://localhost:5000/profile/update", formData, {
+            const response = await axios.put("https://fb-clone-beryl.vercel.app/profile/update", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
