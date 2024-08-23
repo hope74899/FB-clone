@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
     const getCurrentUser = async () => {
         if (!isloggedIn) return;
         try {
-            const response = await axios.get(`https://fb-clone-beryl.vercel.app/user`,
+            const response = await axios.get(`http://localhost:5000/user`,
                 {
                     headers: {
                         'Authorization': authorizationToken

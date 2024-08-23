@@ -9,7 +9,7 @@ const AdminSignupUsers = () => {
 
     const userAuthentication = async () => {
         try {
-            const response = await axios.get(`https://fb-clone-beryl.vercel.app/admin/users`, {
+            const response = await axios.get(`http://localhost:5000/admin/users`, {
                 headers: {
                     "Authorization": authorizationToken
                 }
@@ -28,7 +28,7 @@ const AdminSignupUsers = () => {
 
     const handleDelete = async (userId) => {
         try {
-            const response = await axios.delete(`https://fb-clone-beryl.vercel.app/admin/users/delete/${userId}`, {
+            const response = await axios.delete(`http://localhost:5000/admin/users/delete/${userId}`, {
                 headers: {
                     "Authorization": authorizationToken
                 }

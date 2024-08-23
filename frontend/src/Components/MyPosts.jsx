@@ -40,7 +40,7 @@ const MyPosts = () => {
 
     const getPostsData = async (userId) => {
         try {
-            const response = await axios.get(`https://fb-clone-beryl.vercel.app/myposts/${userId}`);
+            const response = await axios.get(`http://localhost:5000/myposts/${userId}`);
             if (response.status) {
                 const sortedPosts = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 setPosts(sortedPosts);
@@ -56,7 +56,7 @@ const MyPosts = () => {
     const deletePost = async (postId, userId) => {
         if (!isloggedIn) return;
         try {
-            const response = await axios.delete(`https://fb-clone-beryl.vercel.app/posts/delete/${postId}`);
+            const response = await axios.delete(`http://localhost:5000/posts/delete/${postId}`);
             if (response.status) {
                 toast.success(response.data.details ? response.data.details : response.data.message)
                 getPostsData(userId);
@@ -73,7 +73,7 @@ const MyPosts = () => {
     };
     const getComments = async (postId) => {
         try {
-            const response = await axios.get(`https://fb-clone-beryl.vercel.app/getcomment/${postId}`);
+            const response = await axios.get(`http://localhost:5000/getcomment/${postId}`);
             if (response.status) {
                 const sortedcomments = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 setComments(sortedcomments);
@@ -85,7 +85,7 @@ const MyPosts = () => {
     };
     const DeleteComment = async (postId, commentId, userId) => {
         try {
-            const response = await axios.delete(`https://fb-clone-beryl.vercel.app/comments/delete/${commentId}`);
+            const response = await axios.delete(`http://localhost:5000/comments/delete/${commentId}`);
 
             if (response.status) {
                 // Safely update the comments state by checking for undefined values
@@ -118,7 +118,7 @@ const MyPosts = () => {
     };
     const handleLike = async (postId) => {
         try {
-            const response = await axios.post(`https://fb-clone-beryl.vercel.app/likePost/${postId}`, {}, {
+            const response = await axios.post(`http://localhost:5000/likePost/${postId}`, {}, {
                 headers: {
                     'Authorization': authorizationToken
                 }

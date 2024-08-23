@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const app = express();
 const corsOptions = {
-    origin: "https://fb-clone-beryl.vercel.app",
+    origin: "http://localhost:5173",
     methods: "GET, POST, PATCH, PUT, DELETE, HEAD",
     credentials: true
 }
