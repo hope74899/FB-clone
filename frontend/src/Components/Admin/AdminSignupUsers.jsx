@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../Store/AuthToken';
 // import { toast } from 'react-toastify';
 import axios from 'axios';
+import { baseurl } from '../../BaseURL';
 
 const AdminSignupUsers = () => {
     const { authorizationToken } = useAuth();
@@ -9,7 +10,7 @@ const AdminSignupUsers = () => {
 
     const userAuthentication = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/admin/users`, {
+            const response = await axios.get(`${baseurl}/admin/users`, {
                 headers: {
                     "Authorization": authorizationToken
                 }
@@ -28,7 +29,7 @@ const AdminSignupUsers = () => {
 
     const handleDelete = async (userId) => {
         try {
-            const response = await axios.delete(`http://localhost:5000/admin/users/delete/${userId}`, {
+            const response = await axios.delete(`${baseurl}/admin/users/delete/${userId}`, {
                 headers: {
                     "Authorization": authorizationToken
                 }

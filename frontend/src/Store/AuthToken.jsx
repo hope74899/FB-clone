@@ -1,5 +1,6 @@
 import { useContext, createContext, useState, useEffect } from 'react'
 import axios from 'axios'
+import { baseurl } from '../BaseURL';
 
 export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }) => {
     const getCurrentUser = async () => {
         if (!isloggedIn) return;
         try {
-            const response = await axios.get(`http://localhost:5000/user`,
+            const response = await axios.get(`${baseurl}/user`,
                 {
                     headers: {
                         'Authorization': authorizationToken

@@ -3,6 +3,7 @@ import { MdCameraAlt } from "react-icons/md";
 import { useAuth } from "../Store/AuthToken";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { baseurl } from "../BaseURL";
 
 const Profile = () => {
     const { user } = useAuth();
@@ -61,7 +62,7 @@ const Profile = () => {
                 formData.append('profileImage', userData.profileImage);
             }
 
-            const response = await axios.put("http://localhost:5000/profile/update", formData, {
+            const response = await axios.put(`${baseurl}/profile/update`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }

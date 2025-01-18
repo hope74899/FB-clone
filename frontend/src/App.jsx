@@ -9,7 +9,10 @@ import NavBar from './Components/NavBar'
 import MyPosts from './Components/MyPosts'
 import Errorpage from './Components/Errorpage'
 
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Friends from './screen/Friends'
+import Messages from './screen/Messages'
 
 function App() {
 
@@ -22,8 +25,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/admin" element={<Admin />} />
           <Route path="/myposts" element={<MyPosts />} />
+          <Route path="/friends" element={<Friends />} />
+          <Route path="/messages" element={<Messages />} />
+
           <Route path="*" element={<Errorpage />} />
           <Route path='/admin' element={<Admin />}>
             <Route path="users" element={<AdminSignupUsers />} />

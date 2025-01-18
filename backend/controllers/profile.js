@@ -1,5 +1,5 @@
-import uploadOnCloudinary from '../middleware/cloudinary.js'
-import SignupUser from '../models/login.js';
+import uploadOnCloudinary from "../middleware/cloudinary.js";
+import SignupUser from "../models/login.js";
 export const updateUser = async (req, res) => {
     try {
         const { name, email, bio } = req.body;
@@ -12,12 +12,16 @@ export const updateUser = async (req, res) => {
             const profileLocalPath = req.files.profileImage[0]?.path;
 
             if (!profileLocalPath) {
-                return res.status(400).json({ message: "Error with the profile image upload." });
+                return res
+                    .status(400)
+                    .json({ message: "Error with the profile image upload." });
             }
 
             profileImage = await uploadOnCloudinary(profileLocalPath);
             if (!profileImage) {
-                return res.status(400).json({ message: "Error while uploading images to Cloudinary" });
+                return res
+                    .status(400)
+                    .json({ message: "Error while uploading images to Cloudinary" });
             }
         }
 
@@ -27,7 +31,7 @@ export const updateUser = async (req, res) => {
                 email,
                 name,
                 bio,
-                profileImage: profileImage || user.profileImage
+                profileImage: profileImage || user.profileImage,
             },
             { new: true }
         );
@@ -35,12 +39,13 @@ export const updateUser = async (req, res) => {
             message: "User profile updated successfully",
             user: updatedUser,
             token: await user.generateToken(),
-            userId: updatedUser._id.toString()
+            userId: updatedUser._id.toString(),
         });
     } catch (error) {
         console.log(error);
 
-        return res.status(500).json({ message: "An error occurred while updating the user" });
+        return res
+            .status(500)
+            .json({ message: "An error occurred while updating the user" });
     }
 };
-

@@ -8,6 +8,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { useAuth } from "../Store/AuthToken";
 import Profile from "./Profile";
 import { toast } from "react-toastify";
+import { baseurl } from "../BaseURL";
 const MyPosts = () => {
     const { user, isloggedIn, authorizationToken } = useAuth();
     // const navigate = useNavigate();
@@ -40,7 +41,7 @@ const MyPosts = () => {
 
     const getPostsData = async (userId) => {
         try {
-            const response = await axios.get(`http://localhost:5000/myposts/${userId}`);
+            const response = await axios.get(`${baseurl}/myposts/${userId}`);
             if (response.status) {
                 const sortedPosts = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 setPosts(sortedPosts);
@@ -56,7 +57,7 @@ const MyPosts = () => {
     const deletePost = async (postId, userId) => {
         if (!isloggedIn) return;
         try {
-            const response = await axios.delete(`http://localhost:5000/posts/delete/${postId}`);
+            const response = await axios.delete(`${baseurl}/posts/delete/${postId}`);
             if (response.status) {
                 toast.success(response.data.details ? response.data.details : response.data.message)
                 getPostsData(userId);
@@ -73,7 +74,7 @@ const MyPosts = () => {
     };
     const getComments = async (postId) => {
         try {
-            const response = await axios.get(`http://localhost:5000/getcomment/${postId}`);
+            const response = await axios.get(`${baseurl}/getcomment/${postId}`);
             if (response.status) {
                 const sortedcomments = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 setComments(sortedcomments);
@@ -85,7 +86,7 @@ const MyPosts = () => {
     };
     const DeleteComment = async (postId, commentId, userId) => {
         try {
-            const response = await axios.delete(`http://localhost:5000/comments/delete/${commentId}`);
+            const response = await axios.delete(`${baseurl}/comments/delete/${commentId}`);
 
             if (response.status) {
                 // Safely update the comments state by checking for undefined values
@@ -118,7 +119,7 @@ const MyPosts = () => {
     };
     const handleLike = async (postId) => {
         try {
-            const response = await axios.post(`http://localhost:5000/likePost/${postId}`, {}, {
+            const response = await axios.post(`${baseurl}/likePost/${postId}`, {}, {
                 headers: {
                     'Authorization': authorizationToken
                 }

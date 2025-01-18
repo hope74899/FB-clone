@@ -19,16 +19,27 @@ function NavBar() {
                             </NavLink>
                         </li>
                         {admin && <li className="transition duration-300">
-                            <NavLink to="/admin"  >
+                            <NavLink to="/admin/users"  >
                                 Admin
                             </NavLink>
                         </li>}
-                        {isloggedIn &&
+                        {isloggedIn &&<>
                             <li className="transition duration-300">
                                 <NavLink to="/myposts"  >
                                     Porfile
                                 </NavLink>
                             </li>
+                            <li className="transition duration-300">
+                                <NavLink to="/friends"  >
+                                    Friends
+                                </NavLink>
+                            </li>
+                            <li className="transition duration-300">
+                                <NavLink to="/messages"  >
+                                    Messenger
+                                </NavLink>
+                            </li>
+                            </>
                         }
                     </ul>
                 </div>

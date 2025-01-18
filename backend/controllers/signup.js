@@ -1,27 +1,51 @@
 import SignupUser from "../models/login.js";
-import bcrypt from 'bcrypt'
+import uploadOnCloudinary from "../middleware/cloudinary.js";
+import bcrypt from "bcrypt";
 export const CreateUser = async (req, res) => {
     try {
         const { email, password, name } = req.body;
-        const userexist = await SignupUser.findOne({ email })
+        const userexist = await SignupUser.findOne({ email });
         if (userexist) {
-            return res.status(400).json({ message: "User with that email already exist" });
+            return res
+                .status(400)
+                .json({ message: "User with that email already exist" });
         }
+        let profileImage;
+        if (req.files?.profileImage) {
+            const profileLocalPath = req.files.profileImage[0]?.path;
+
+            if (!profileLocalPath) {
+                return res
+                    .status(400)
+                    .json({ message: "Error with the profile image upload." });
+            }
+
+            profileImage = await uploadOnCloudinary(profileLocalPath);
+            if (!profileImage) {
+                return res
+                    .status(400)
+                    .json({ message: "Error while uploading images to Cloudinary" });
+            }
+        }
+
         const user = await SignupUser.create({
             name,
             email,
             password,
+            profileImage
         });
-        console.log('user :', user);
+        console.log("user :", user);
         return res.status(201).json({
             message: "User created successfully",
             user: user,
             token: await user.generateToken(),
-            userId: user._id.toString()
+            userId: user._id.toString(),
         });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: "An error occurred while creating the user" });
+        return res
+            .status(500)
+            .json({ message: "An error occurred while creating the user" });
     }
 };
 
@@ -44,39 +68,37 @@ export const deleteuser = async (req, res) => {
         const user = await SignupUser.findByIdAndDelete(userId);
 
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ message: "User not found" });
         }
 
-        return res.status(200).json({ message: 'User deleted successfully', deletedUser: user });
+        return res
+            .status(200)
+            .json({ message: "User deleted successfully", deletedUser: user });
     } catch (error) {
-        return res.status(500).json({ message: 'Server error', error });
+        return res.status(500).json({ message: "Server error", error });
     }
 };
-
 
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const userexist = await SignupUser.findOne({ email })
+        const userexist = await SignupUser.findOne({ email });
         if (!userexist) {
             return res.status(400).json({ message: "Email not found" });
         }
         const user1 = await bcrypt.compare(password, userexist.password);
         if (!user1) {
-            return res.status(400).json({ message: 'invalid password...' })
-        }
-        else {
-            res.status(200).json(
-                {
-                    message: 'Login successfully',
-                    user: userexist,
-                    token: await userexist.generateToken(),
-                    userId: userexist._id.toString()
-                }
-            );
+            return res.status(400).json({ message: "invalid password..." });
+        } else {
+            res.status(200).json({
+                message: "Login successfully",
+                user: userexist,
+                token: await userexist.generateToken(),
+                userId: userexist._id.toString(),
+            });
         }
     } catch (error) {
-        console.error('Error during login:', error);
-        res.status(500).json({ message: 'An error occurred during login' });
+        console.error("Error during login:", error);
+        res.status(500).json({ message: "An error occurred during login" });
     }
 };

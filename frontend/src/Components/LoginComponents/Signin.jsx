@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Store/AuthToken';
 import { toast } from 'react-toastify';
+import { baseurl } from '../../BaseURL';
 
 const Signin = () => {
     const { storeTokenInLS } = useAuth();
@@ -22,7 +23,7 @@ const Signin = () => {
     const handlelogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/login', loginInput);
+            const response = await axios.post(`${baseurl}/login`, loginInput);
             if (response.status) {
                 toast.success(response.data.details ? response.data.details : response.data.message)
                 storeTokenInLS(response.data.token);
